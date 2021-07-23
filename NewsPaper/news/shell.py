@@ -1,4 +1,4 @@
-                        #terminal
+'''                        #terminal
 manage.py makemigrations
 manage.py migrate
 manage.py shell
@@ -60,3 +60,4 @@ best
 Post.objects.all().order_by('-rating').values()[0]
 Author.objects.get(id=4).authorUser
 Comment.objects.filter(commentPost = Post.objects.get(id = 4)).values('dateCreation', 'commentUser', 'rating', 'text')
+'''
