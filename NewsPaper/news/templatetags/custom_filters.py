@@ -1,11 +1,11 @@
 from django import template
 
-register = template.Library()  # если мы не зарегистрируем наши фильтры, то Django никогда не узнает, где именно их искать и фильтры потеряются
+register = template.Library()
 
 
-@register.filter(name='multiply')  # регистрируем наш фильтр под именем multiply, чтоб django понимал, что это именно фильтр, а не простая функция
+@register.filter(name='multiply')
 def multiply(value, arg):
-    if isinstance(value, str) and isinstance(arg, int):  # проверяем, что value — это точно строка, а arg — точно число, чтобы не возникло курьёзов
+    if isinstance(value, str) and isinstance(arg, int):
         return str(value) * arg
     else:
-        raise ValueError(f'Нельзя умножить {type(value)} на {type(arg)}')  #  в случае, если кто-то неправильно воспользовался нашим тегом, выводим ошибку
+        raise ValueError(f'Нельзя умножить {type(value)} на {type(arg)}')

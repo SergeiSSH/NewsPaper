@@ -1,36 +1,35 @@
-<!--  наследуемся от шаблона default.html -->
+
 {% extends 'flatpages/default.html' %}
 
-{% load custom_filters %}  <!-- не забываем заранее загружать наши фильтры! -->
+{% load custom_filters %}
 {% load for_censor %}
 
 {% block title %}
 News
 {% endblock title %}
 
-<!-- выводим все товары -->
 {% block content %}
     <h1 style="color:#808080">Все новости</h1>
     <h8>Всего новостей:{{news|length}};</h8>
     <h7>{{time_now|date:'M d Y'}}</h7>
     <hr>
-    {% if news %} <!-- Если есть, то выводим -->
+    {% if news %}
         <table>
             <tr align="justify">
-                <td style="font-size:150%">
+                <td style="font-size:140%">
                     Название:
                 </td>
-                <td style="font-size:150%">
+                <td style="font-size:140%">
                     Дата публикации:
                 </td>
-                <td style="font-size:150%">
+                <td style="font-size:140%">
                     Описание:
                 </td>
             </tr>
-        {% for post in news %}                                                     <!-- Для каждого товара будете генерироваться новая строчка, т. е. новый html-код. При этом сам цикл работает точно также, как и в Python. product — переменная цикла, т. е. наш товар, взятый из общего списка -->
+        {% for post in news %}
             <tr align="justify">
                 <td>
-                    <a href="{{post.id}}">{{ post.title|multiply:1|censor }}</a>                                      <!-- (свой фильтр)не забываем, что переменные в шаблоне ничем не отличаются от переменных в Python. Здесь также можно получать доступ к полям класса. Например, здесь мы выводим имя, в следующем столбце описание, и т. д.  -->
+                    <a href="{{post.id}}">{{ post.title|multiply:1|censor }}</a>
                 <hr>
                 </td>
                 <td>
