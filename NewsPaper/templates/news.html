@@ -37,7 +37,7 @@ News
                 <hr>
                 </td>
                 <td>
-                    {{ post.text|truncatewords:9|censor }}
+                    {{ post.text|stringformat:".50s"|censor }}
                 <hr>
                 </td>
             </tr>
