@@ -15,7 +15,7 @@ urlpatterns = [
     #path('edit/<int:pk>', EditPost.as_view(), name='addpost'),
     path('delete/<int:pk>', DeletePost.as_view(), name='delete_post'),
     #path('search/', author_list),
-    #path('search1/', date_list),
+    path('search/', PostFilter),
 
 
 
