@@ -1,0 +1,16 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+<h3>Поиск:</h3>
+{% endblock title %}
+
+{% block content %}
+<form method="GET">
+    {{ filter.qs }}
+    <input type="submit" value="Поиск">
+</form>
+{% for post in news %}
+
+{% endfor %}
+
+{% endblock content %}

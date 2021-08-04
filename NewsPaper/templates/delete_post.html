@@ -1,0 +1,19 @@
+{% extends 'flatpages/default.html' %}
+{% load for_censor %}
+{% block title %}
+<h3>Удалить статью/новость:</h3>
+{% endblock title %}
+
+{% block content %}
+<h4 style="color:#DC143C">Действительно удалить?</h4>
+<hr>
+
+<p style="text-align:left"><h5>{{ post.title|censor }}</h5>
+<p style="text-align:left">{{ post.text|censor| truncatewords:10 }}</p>
+
+<hr>
+<form method="POST">
+    {% csrf_token %}
+    <h2><input style="color:#DC143C" type="submit" value="Подтвердить"></h2>
+</form>
+{% endblock content %}

@@ -1,0 +1,17 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+Создать.....
+{% endblock title %}
+
+{% block content %}
+<h4 style="color:#808080">статья/новость:</h4>
+<form method="POST">
+    <hr>
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit", value="Публиковать">
+
+</form>
+
+{% endblock content %}

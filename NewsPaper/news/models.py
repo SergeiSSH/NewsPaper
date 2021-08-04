@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Sum
+from django.core.cache import cache
+from django.contrib.auth.decorators import login_required
 
 
 class Author(models.Model):
@@ -19,9 +21,13 @@ class Author(models.Model):
         self.ratingAuthor = pRat * 3 + cRat
         self.save()
 
+        def __str__(self):
+            return f'{self.user_name}'  #
+
 
 class Category(models.Model):
-    name = models.CharField(max_length=100, unique=True)
+    name = models.CharField(max_length=64, unique=True,
+                            verbose_name='Категория')  # name = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
         return f'{self.name.title()}'
@@ -57,6 +63,13 @@ class Post(models.Model):
     def __str__(self):
         return f'{self.title.title()}: {self.text[:100]}...'
 
+    def category_name(self):  #
+        if self.postCategory:
+            return str([postCategory.name for postCategory in self.postCategory.all()])
+
+    def get_absolute_url(self):#
+        return f'/news/{self.id}'
+
 
 class PostCategory(models.Model):
     postThrough = models.ForeignKey(Post, on_delete=models.CASCADE)
@@ -77,3 +90,8 @@ class Comment(models.Model):
     def dislike(self):
         self.rating -= 1
         self.save()
+
+
+class PostCg(models.Model): #
+    postThrough = models.ForeignKey(Post, on_delete=models.CASCADE)
+    categoryThrough = models.ForeignKey(Category, on_delete=models.CASCADE)
