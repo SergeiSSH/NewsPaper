@@ -2,7 +2,7 @@
 
 
 from django.urls import path, include
-from .views import PostList, PostDetail, AddPost, EditPost, PostFilter, DeletePost
+from .views import PostList, PostDetail, AddPost, EditPost, PostFilter,filter_post, DeletePost
 
 
 urlpatterns = [
@@ -15,7 +15,7 @@ urlpatterns = [
     #path('edit/<int:pk>', EditPost.as_view(), name='addpost'),
     path('delete/<int:pk>', DeletePost.as_view(), name='delete_post'),
     #path('search/', author_list),
-    path('search/', PostFilter),
+    path('search/', filter_post),
 
 
 

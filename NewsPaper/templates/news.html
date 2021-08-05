@@ -9,10 +9,7 @@ News
 {% endblock title %}
 
 {% block content %}
-<form method="GET">
-    {{ filter.form }}
-    <input type="submit" value="Поиск">
-</form>
+
     <h1 style="color:#808080">Все новости</h1>
     <h8>Новостей на странице: {{news|length}} ;</h8>
     <h7>{{time_now|date:'M d Y'}}</h7>

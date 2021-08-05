@@ -18,11 +18,11 @@ class PostList(ListView):
 
     form_class = PostForm
 
-    def get_context_data(self, *, object_list=None, **kwargs):
+    '''def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['time_now'] = datetime.now(tz=None)
         context['filter'] = PostFilter(self.request.GET, queryset=self.get_queryset())
-        return context
+        return context'''
 
 
 #   def get_context_data(self, **kwargs):
@@ -73,12 +73,12 @@ class DeletePost(DeleteView):
 
 def date_list(request):
     d = data_filter(request.Get, queryset=Post.objects.all())
-    return render(request, '.html', {'filter': d})
+    return render(request, '.html', {'filter': d})'''
 
 def filter_post(request):
-    f=PostFilter(request.Get, queryset=Post.objects.all())
+    f=PostFilter(request.GET, queryset=Post.objects.all())
     return render(request, 'search.html', {'filter': f})
-'''
+
 
 class Subscribe(LoginRequiredMixin, View):
     def post(self, request, **kwargs):
