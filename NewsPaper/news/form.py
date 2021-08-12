@@ -7,8 +7,8 @@ from django.contrib.auth.models import Group
 
 # Создаём модельную форму
 class PostForm(ModelForm):
-    check_box = BooleanField(label='Yes')  # добавляем галочку, или же true-false поле
-    # в класс мета, как обычно, надо написать модель, по которой будет строится форма и нужные нам поля.
+    check_box = BooleanField(label='Yes')  # добавляем галочку
+
     class Meta:
         model = Post
         fields = ['title', 'author', 'postCategory', 'text', 'check_box']
