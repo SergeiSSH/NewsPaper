@@ -7,9 +7,11 @@ from .filter import PostFilter
 from .form import *
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.models import Group
+from django.core.mail import send_mail, EmailMultiAlternatives
 
 
-class PostList(ListView):
+class PostList(ListView, LoginRequiredMixin):
     model = Post
     template_name = 'news.html'
     context_object_name = 'news'
@@ -24,6 +26,13 @@ class PostList(ListView):
         context['filter'] = PostFilter(self.request.GET, queryset=self.get_queryset())
         return context'''
 
+    @login_required()
+    def new(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid:
+            form.save()
+        return super().get(request, *args, **kwargs)
+
 
 #   def get_context_data(self, **kwargs):
 #       context = super().get_context_data(**kwargs)
@@ -32,21 +41,26 @@ class PostList(ListView):
 #       return context
 
 
-class PostDetail(DetailView):
+class PostDetail(PermissionRequiredMixin, DetailView):
+    permission_required = ('news.add_post', 'news.change_post')
     model = Post
     template_name = 'post.html'
     context_object_name = 'post'
     queryset = Post.objects.all()
 
 
-class AddPost(CreateView):
+class AddPost(PermissionRequiredMixin, CreateView):
+    permission_required = ('news.add_post', 'news.change_post')
     model = Post
+
     template_name = 'addpost.html'
     form_class = PostForm
     success_url = '/news/'
 
 
-class EditPost(UpdateView):
+class EditPost(PermissionRequiredMixin, UpdateView):
+    permission_required = ('news.add_post', 'news.change_post')
+    User = "Authors"
     model = Post
     template_name = 'addpost.html'
     form_class = PostForm
@@ -58,7 +72,8 @@ class EditPost(UpdateView):
     success_url = '/news/'
 
 
-class DeletePost(DeleteView):
+class DeletePost(PermissionRequiredMixin, DeleteView):
+    permission_required = ('news.add_post', 'news.change_post')
     model = Post
     template_name = 'delete_post.html'
     form_class = PostForm
@@ -66,17 +81,8 @@ class DeletePost(DeleteView):
     success_url = '/news/'
 
 
-'''def author_list(request):
-    au = author_filter(request.Get, queryset=Author.objects.all())
-    return render(request, '.html', {'filter': au})
-
-
-def date_list(request):
-    d = data_filter(request.Get, queryset=Post.objects.all())
-    return render(request, '.html', {'filter': d})'''
-
 def filter_post(request):
-    f=PostFilter(request.GET, queryset=Post.objects.all())
+    f = PostFilter(request.GET, queryset=Post.objects.all())
     return render(request, 'search.html', {'filter': f})
 
 
@@ -84,9 +90,9 @@ class Subscribe(LoginRequiredMixin, View):
     def post(self, request, **kwargs):
         user = request.user
         category = get_object_or_404(Category, id=kwargs['pk'])
-        if category.cat_sub.filter(username=request.user).exists():
-            category.cat_sub.remove(user)
+        if category.subs.filter(username=request.user).exists():
+            category.subs.remove(user)
         else:
-            category.cat_sub.add(user)
+            category.subs.add(user)
 
         return redirect(request.META['HTTP_REFERER'])

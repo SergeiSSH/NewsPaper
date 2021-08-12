@@ -1,13 +1,10 @@
 {% extends 'flatpages/default.html' %}
 
-{% block title %}
-Профиль {{request.user.username}}
-{% endblock title %}
 {% block content %}
-<h2>Профиль пользователя {{request.user.username}}</h2>
-{% if is_not_author %}
+<h2>Страница авторизованного пользователя {{request.user.username}}</h2>
+<div> {{request.user.username}} </div>
+{% if is_not_authors %}
 <button><a href="sign/upgrade/">Стать автором</a> </button>
 {% endif %}
-
-<button> <a href="sign/logout/">Выйти</a> </button>
+<button> <a href="logout">Выйти</a> </button>
 {% endblock content %}

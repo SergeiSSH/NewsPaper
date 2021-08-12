@@ -1,9 +1,8 @@
 
 
-
+from django.contrib import admin
 from django.urls import path, include
-from .views import PostList, PostDetail, AddPost, EditPost, PostFilter,filter_post, DeletePost
-
+from .views import *
 
 urlpatterns = [
     path('', PostList.as_view()),
@@ -17,9 +16,11 @@ urlpatterns = [
     #path('search/', author_list),
     path('search/', filter_post),
 
-
-
-
+    path('', include('signup.urls')),
+    path('', include('protect.urls')),
+    path('sign/', include('signup.urls')),
+    path('accounts/', include('allauth.urls')),
+    path('accounts/login', include('allauth.urls')),
 
 
 

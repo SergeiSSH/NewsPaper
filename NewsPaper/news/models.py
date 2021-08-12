@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Sum
-from django.core.cache import cache
+
 from django.contrib.auth.decorators import login_required
 
 
@@ -28,9 +28,10 @@ class Author(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=64, unique=True,
                             verbose_name='Категория')  # name = models.CharField(max_length=100, unique=True)
+    subs = models.ManyToManyField(User, verbose_name='Подписчики', blank=True)
 
     def __str__(self):
-        return f'{self.name.title()}'
+        return f'{self.name}'
 
 
 class Post(models.Model):
