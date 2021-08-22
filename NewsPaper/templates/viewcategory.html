@@ -1,0 +1,68 @@
+{% extends 'flatpages/default.html' %}
+
+{% load for_censor %}
+{% block title %}
+{% for cat in filter %}
+Все посты в категории {{cat.name}}
+{% endfor %}
+{% endblock title %}
+
+{% block content %}
+<hr>
+{% for cat in filter %}
+<h3 style="color:#00AAAF">Все посты в категории {{ cat.name }}</h3><br>
+<hr>
+{% if user in cat.subs.all %}
+<h6 style="color:#00AAAF">Вы подписаны на эту категорию</h6>
+<form action="{% url 'subscribe' cat.pk %}" method="post">
+    {% csrf_token %}
+    <button type="submit" name="name" value={{name}}>Отписаться</button>
+</form>
+{% else %}
+<form action="{% url 'subscribe' cat.pk %}" method="post">
+    {% csrf_token %}
+    <button type="submit" name="name" value={{name}}>Подписаться</button>
+</form>
+{% endif %}
+{% endfor %}
+
+{% if news %}
+{% for post in news %}
+<table>
+    <tr>
+        <td>
+
+            <a href="/news/{{ post.id }}"><h2>{{ post.title | censor}}</h2></a>
+            <p style="text-align: left;"><a href="{% url 'editpost' post.id %}">Редактировать</a>
+                <a href="{% url 'delete_post' post.id %}">Удалить</a></p>
+            <h4 >{{ post.text | truncatewords:20 | censor}}</h4><br>
+            <p style="text-align: left;">{{ post.dateCreation | date:'d M Y, H:m'}}, автор: {{post.author.authorUser}}, {% for cat in post.postCategory.all %}категория:{{cat}}{% endfor %}</p>
+            <p style="text-align: left;"></p>
+
+
+            <br>
+
+        </td>
+
+    </tr>
+</table>
+{% endfor %}
+{% endif %}
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            {{ page_obj.number }} {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+{% endblock content %}

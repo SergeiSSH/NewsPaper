@@ -10,4 +10,14 @@ news
     <p style="text-align: right;">{{ post.dateCreation | date:'d M Y, H:m'}}</p>
     <hr>
     <h6 align="justify">{{ post.text|censor }}</h6>
+
+
+<tr>
+    <hr>
+    <p style="text-align: center;"><h6>Комментарии:</h6></p>
+
+    <p style="text-align: left;">{{ comment.dateCreation | date:'d M Y, H:m'}} {{comment.commentUser}}</p><br>
+    <p style="text-align: left;">{{ comments }} </p>
+</tr>
+
 {% endblock content %}

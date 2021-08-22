@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>Добрый день, {{user}}! В категории
+    {% for category in instance.postCategory.all %}
+    {{ category.name}}
+    {% endfor %}
+    появилась новая статья!</h2><br>
+<a href="/news/{{post.objects.last}}"> <h1>{{instance.title}}</h1><br></a>
+<h3>{{instance.text | stringformat:".50s"}}</h3>
+</body>
+</html>

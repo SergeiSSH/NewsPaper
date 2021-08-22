@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>Приветствуем, {{user}}! За последнюю неделю в категориях, на которые Вы подписаны,
+    были опубликованы статьи:
+    {% for category in inst.postCategory.all %}
+    {{ category.name}}
+    {% endfor %}
+    </h2><br>
+<a href="/news/{{post.objects.last}}"> <h1>{{inst.title}}</h1><br></a>
+{% for inst in week %}
+<h2>{{inst.title}}</h2><br>
+<h3>{{inst.text | truncatewords:20}}</h3>
+{% endfor %}
+</body>
+</html>

@@ -4,7 +4,7 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('protect.urls')),
-    path(r'^sign/', include('signup.urls')),
+    path('sign/', include('signup.urls')),
     path('register/', include('signup.urls')),
     path('pages/', include('django.contrib.flatpages.urls')),
     path('news/', include('news.urls')),

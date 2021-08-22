@@ -11,7 +11,7 @@ class PostForm(ModelForm):
 
     class Meta:
         model = Post
-        fields = ['title', 'author', 'postCategory', 'text', 'check_box']
+        fields = ['author', 'postCategory', 'title', 'text', 'check_box']
 
 class CommonSignup(SignupForm):
     def save(self, request):

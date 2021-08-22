@@ -26,11 +26,14 @@ News
                 <td style="font-size:140%">
                     Описание:
                 </td>
+                <td style="font-size:140%">
+                    Категория:
+                </td>
             </tr>
         {% for post in news %}
             <tr align="justify">
                 <td>
-                    <a href="{{post.id}}">{{ post.title|multiply:1|censor }}</a>
+                    <a href="{{post.id}}">{{ post.title|multiply:1|stringformat:".20s"|censor }}</a>
                     <a href="{% url 'editpost' post.id %}"><u>Редактировать</u></a>
                     <a href="{% url 'delete_post' post.id %}"><u>Удалить</u></a>
                 <hr>
@@ -43,6 +46,11 @@ News
                     {{ post.text|stringformat:".50s"|censor }}
                 <hr>
                 </td>
+                <td>
+                    {% for cat in post.postCategory.all %}{{cat}}{% endfor %}
+                <hr>
+                </td>
+
             </tr>
         {% endfor %}
         </table>
