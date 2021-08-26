@@ -55,9 +55,15 @@ INSTALLED_APPS = [
 
 ]
 
-DEFAULT_FROM_EMAIL = ''
+DEFAULT_FROM_EMAIL = 'sshvvvssh@gmail.com'
 
 SITE_ID = 1
+
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -169,11 +175,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 465
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_USER = 'sshvvvssh'
+EMAIL_HOST_PASSWORD = 'Serg111serg'
 EMAIL_USE_SSL = True
 
-SERVER_EMAIL = ''
+SERVER_EMAIL = 'sshvvvssh@gmail.com'
 
 # формат даты, которую будет воспринимать наш задачник (вспоминаем модуль по фильтрам)
 APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"

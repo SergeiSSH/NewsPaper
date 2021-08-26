@@ -1,11 +1,11 @@
-#from celery import app, shared_task
+from celery import app, shared_task
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
 from django.shortcuts import redirect
 from .models import Post, User
 import datetime
 
-#@shared_task
+@shared_task
 def new_post_notification(instance):
     for cat in instance.postCategory.all():
         for user in cat.subs.all():
@@ -20,7 +20,7 @@ def new_post_notification(instance):
             msg.send()
 
 
-#@shared_task
+@shared_task
 def new_user_confirm(instance):
     html_content = render_to_string('letter.html', {'instance': instance})
     e_mail = instance.email
@@ -34,7 +34,7 @@ def new_user_confirm(instance):
     return redirect('/news/')
 
 
-#@shared_task
+@shared_task
 def weekly_broadcast():
     date = datetime.date.today() - datetime.timedelta(days=7)
     week = Post.objects.filter(created__gte=date)
