@@ -30,6 +30,7 @@ ALLOWED_HOSTS = ['127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
+    'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -75,9 +76,14 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    'basic.middlewares.TimezoneMiddleware',  # add that middleware!
 ]
 
 ROOT_URLCONF = 'NewsPaper.urls'
+
+LOCALE_PATH = [
+    os.path.join(BASE_DIR, 'locale')
+]
 
 TEMPLATES = [
     {
@@ -108,6 +114,10 @@ WSGI_APPLICATION = 'NewsPaper.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+LANGUAGES = [
+    ('en-us', 'English'),
+    ('ru', 'Русский')
+]
 
 DATABASES = {
     'default': {
@@ -181,8 +191,123 @@ EMAIL_USE_SSL = True
 
 SERVER_EMAIL = ''
 
-# формат даты, которую будет воспринимать наш задачник (вспоминаем модуль по фильтрам)
+# формат даты, которую будет воспринимать наш задачник
 APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
 
 # если задача не выполняется за 25 секунд, то она автоматически снимается, можете поставить время побольше, но как правило, это сильно бьёт по производительности сервера
 APSCHEDULER_RUN_NOW_TIMEOUT = 25  # Seconds
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': os.path.join(BASE_DIR, 'cache_files'),  # folder
+    }
+}
+LOGGING = {
+    'version': 1,
+    'disable_existing_logger': False,
+    'style':'{',
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'news'],
+
+            'level': 'DEBUG',
+        },
+
+        'django.request': {
+         'handlers': ['mail_admin', 'errors'],
+         'level': 'ERROR',
+         'formatter': 'general',
+
+
+        },
+        'django.server': {
+         'handlers': ['mail_admin', 'errors'],
+         'level': 'ERROR',
+         'formatter': 'general',
+
+        },
+        'django.template': {
+            'handlers': ['errors'],
+            'level': 'ERROR'
+
+        },
+        'django.db_backends': {
+            'handlers': ['errors'],
+            'level': 'ERROR'
+
+        },
+        'django.security': {
+            'handlers': ['security'],
+            'level': 'ERROR'
+
+        },
+    },
+
+
+    'filters': {
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+
+        'require_debug_false': {
+                '()': 'django.utils.log.RequireDebugFalse',
+            },
+        },
+
+    'handlers': {
+            'console': {
+                'class': 'logging.StreamHandler',
+                'level': 'INFO',
+                'filters': ['require_debug_true'],
+                'formatter': 'myformatter',
+            },
+
+            'mail_admins': {
+                'leve': 'ERROR',
+                'class': 'django.utils.log.AdminEmailHandler',
+                'filters': ['require_debug_false'],
+
+            },
+            'news': {
+                'level': 'INFO',
+                'class': 'logging.FileHandler',
+                'filename': 'general.log',
+                'formatter': 'general',
+            },
+            'errors': {
+                'level': 'ERROR, CRITICAL',
+                'class': 'logging.FileHandler',
+                'filename': 'errors.log',
+                'formatter': 'general',
+            },
+            'security': {
+                'level': 'ERROR, CRITICAL',
+                'class': 'logging.FileHandler',
+                'filename': 'security.log',
+                'formatter': 'general',
+            },
+    },
+
+    'formatters': {
+        'general': {
+                'format': '{module} {asctime} {levelname} {message}',
+                'datetime': '%Y,%m.%d %H:%M:%S',
+                'style': '{',
+            },
+
+
+         'myformatter': {
+                'format': '{pathname} {asctime} {levelname} {message} {exc_info}',
+                'datetime': '%Y,%m.%d %H:%M:%S',
+                'style': '{',
+            },
+         'mail': {
+                'format': '{pathname} {asctime} {levelname} {message} {exc_info}',
+                'datetime': '%Y,%m.%d %H:%M:%S',
+                'style': '{',
+            },
+
+        },
+
+},
